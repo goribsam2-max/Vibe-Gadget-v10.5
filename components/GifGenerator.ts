@@ -28,7 +28,15 @@ export const generateStickerGif = async (
   colorScheme: 'black' | 'white',
   onProgress?: (p: number) => void
 ): Promise<string> => {
-  const { GIFEncoder, quantize, applyPalette } = gifenc;
+  const g = gifenc as any;
+  const GIFEncoderFn = g.GIFEncoder || g.default?.GIFEncoder;
+  const quantizeFn = g.quantize || g.default?.quantize;
+  const applyPaletteFn = g.applyPalette || g.default?.applyPalette;
+
+  if (!GIFEncoderFn || !quantizeFn || !applyPaletteFn) {
+    throw new Error('gifenc methods not found');
+  }
+
   await loadFont();
   await document.fonts.ready;
 
@@ -41,7 +49,7 @@ export const generateStickerGif = async (
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   if (!ctx) throw new Error('Failed to get canvas context');
 
-  const gif = GIFEncoder();
+  const gif = GIFEncoderFn();
   const frames = 24;
   const delay = 40; // ~25fps
 
@@ -224,7 +232,7 @@ export const generateStickerGif = async (
       }
     }
 
-    const palette = quantize(data, 256);
+    const palette = quantizeFn(data, 256);
     
     // Find the green color in palette and force it to be transparent index
     let greenIdx = 0;
@@ -237,7 +245,7 @@ export const generateStickerGif = async (
       }
     }
     
-    const index = applyPalette(data, palette);
+    const index = applyPaletteFn(data, palette);
     gif.writeFrame(index, width, height, { palette, delay, transparent: true, transparentIndex: greenIdx });
 
     if (onProgress) onProgress((i + 1) / frames);
@@ -247,5 +255,10 @@ export const generateStickerGif = async (
   gif.finish();
   const bytes = gif.bytes();
   const blob = new Blob([bytes], { type: 'image/gif' });
-  return URL.createObjectURL(blob);
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
 };

@@ -133,7 +133,7 @@ const SmallCreatorsHub: React.FC<{ userData: UserProfile }> = ({ userData }) => 
       setGeneratedUrl(url);
       setGeneratingGif(null);
 
-      // Attempt auto-download
+      // Attempt auto-download (might gracefully fail on mobile webviews, hence the modal)
       const link = document.createElement("a");
       link.href = url;
       link.download = fileName;
@@ -149,6 +149,41 @@ const SmallCreatorsHub: React.FC<{ userData: UserProfile }> = ({ userData }) => 
 
   const textColor = colorScheme === "black" ? "#ffffff" : "#000000";
   const bgColor = colorScheme === "black" ? "#000000" : "#ffffff";
+
+  const handleShareOrDownload = async () => {
+    if (!generatedUrl) return;
+    try {
+      if (navigator.share && navigator.canShare) {
+        // Build blob synchronously to preserve user interaction gesture
+        const byteString = atob(generatedUrl.split(',')[1]);
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], { type: 'image/gif' });
+        const file = new File([blob], generatedName, { type: 'image/gif' });
+        
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: "Vibe Gadget Sticker",
+          });
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Share failed:", e);
+    }
+
+    // Fallback manual download
+    const link = document.createElement("a");
+    link.href = generatedUrl;
+    link.download = generatedName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const stickers = [
     {
@@ -401,32 +436,40 @@ const SmallCreatorsHub: React.FC<{ userData: UserProfile }> = ({ userData }) => 
                   <Icon name="check" className="text-2xl" />
                 </div>
                 <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Your GIF is Ready!</h3>
-                <div className="w-48 h-48 bg-zinc-100 dark:bg-zinc-800 rounded-2xl overflow-hidden mb-4 relative drop-shadow-md">
-                   <img src={generatedUrl} className="w-full h-full object-contain" alt="Generated Sticker" />
+                <div className="w-48 h-48 bg-zinc-100 dark:bg-zinc-800 rounded-2xl overflow-hidden mb-4 relative drop-shadow-md select-auto">
+                   <img src={generatedUrl} className="w-full h-full object-contain select-auto pointer-events-auto" style={{ WebkitTouchCallout: 'default' }} alt="Generated Sticker" />
                 </div>
                 
                 <p className="text-[11px] text-orange-600 dark:text-orange-400 font-medium mb-6 bg-orange-50 dark:bg-orange-950/40 p-2 rounded-lg border border-orange-200 dark:border-orange-900/50 leading-relaxed">
                   If the download didn't start, <strong>Long press</strong> or <strong>Right click</strong> the image above and choose "Save Image".
                 </p>
                 
-                <div className="flex gap-3 w-full">
+                <div className="flex flex-col gap-3 w-full">
                   <Button 
-                    onClick={() => {
-                      setGeneratedUrl(null);
-                      setGeneratedName("");
-                    }}
-                    variant="outline"
-                    className="flex-1 rounded-xl h-11"
+                    onClick={handleShareOrDownload}
+                    className="w-full rounded-xl h-11 text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 inline-flex items-center justify-center font-medium shadow-sm transition-colors text-sm"
                   >
-                    Close
+                    <Icon name="share" className="mr-2" /> Share GIF
                   </Button>
-                  <a 
-                    href={generatedUrl}
-                    download={generatedName}
-                    className="flex-1 rounded-xl h-11 text-white bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 inline-flex items-center justify-center font-medium shadow-sm transition-colors text-sm"
-                  >
-                    Download GIF
-                  </a>
+                  <div className="flex gap-3 w-full">
+                    <Button 
+                      onClick={() => {
+                        setGeneratedUrl(null);
+                        setGeneratedName("");
+                      }}
+                      variant="outline"
+                      className="flex-1 rounded-xl h-11"
+                    >
+                      Close
+                    </Button>
+                    <a 
+                      href={generatedUrl}
+                      download={generatedName}
+                      className="flex-1 rounded-xl h-11 text-zinc-900 border border-zinc-200 hover:bg-zinc-100 dark:text-zinc-100 dark:border-zinc-800 dark:hover:bg-zinc-800 inline-flex items-center justify-center font-medium shadow-sm transition-colors text-sm bg-white dark:bg-zinc-900"
+                    >
+                      <Icon name="download" className="mr-2" /> Download
+                    </a>
+                  </div>
                 </div>
               </div>
             ) : null}
