@@ -106,7 +106,7 @@ const BlogDetails: React.FC = () => {
   const processedContent = blog.content.replace(/\[\[product:([A-Za-z0-9_-]+)\]\]/g, "prod://$1");
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans pb-20">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <SEO title={blog.title} description={blog.excerpt} />
       
       <div className="bg-zinc-900 rounded-3xl mx-2 md:mx-6 mt-4 md:mt-6 overflow-hidden relative">

@@ -80,7 +80,7 @@ const ManageRiders: React.FC = () => {
   const zones = ["Dhaka", "Chattogram", "Sylhet", "Rajshahi"];
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800 animate-fade-in relative overflow-hidden">
+    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800 animate-fade-in relative overflow-hidden">
       <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
       <div className="flex items-center justify-between mb-12 relative z-10 animate-stagger-1">
         <div className="flex items-center space-x-6">

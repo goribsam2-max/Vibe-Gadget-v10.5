@@ -7,7 +7,7 @@ const AddCard: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="p-6 pb-24 animate-fade-in min-h-screen">
+    <div className="p-6 animate-fade-in min-h-screen">
       
 
       <div className="w-full aspect-[1.6/1] bg-zinc-900 dark:bg-zinc-50 dark:text-black rounded-2xl p-6 text-white mb-10 flex flex-col justify-between shadow-sm relative overflow-hidden">

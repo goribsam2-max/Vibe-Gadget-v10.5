@@ -178,6 +178,7 @@ export interface Review {
   rating: number;
   comment: string;
   images?: string[];
+  replies?: any[];
   createdAt: number;
 }
 

@@ -50,7 +50,7 @@ const BlogList: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pb-32">
+    <div className="min-h-screen bg-background">
       <SEO
         title="Tech Blog & Gadget Reviews | VibeGadget"
         description="Read our latest top 5 gadget lists, tech tips, and product reviews."

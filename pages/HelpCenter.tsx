@@ -85,7 +85,7 @@ const HelpCenter: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 pb-48 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-3xl mx-auto min-h-screen font-inter">
+    <div className="p-6 md:p-12 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-3xl mx-auto min-h-screen font-inter">
       
 
       <AnimatePresence mode="wait">

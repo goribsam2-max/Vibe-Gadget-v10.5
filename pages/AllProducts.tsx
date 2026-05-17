@@ -28,7 +28,7 @@ const AllProducts: React.FC = () => {
   const tabs = ["All", "Mobile", "Accessories", "Gadgets", "Chargers"];
 
   return (
-    <div className="p-6 md:p-12 pb-48 bg-zinc-50 dark:bg-[#000000] max-w-[1440px] mx-auto min-h-screen font-inter animate-fade-in relative overflow-hidden">
+    <div className="p-6 md:p-12 bg-zinc-50 dark:bg-[#000000] max-w-[1440px] mx-auto min-h-screen font-inter animate-fade-in relative overflow-hidden">
       <SEO
         title="All Products"
         description="Browse our vast collection of premium gadgets, mobile phones, chargers, and accessories at VibeGadget."

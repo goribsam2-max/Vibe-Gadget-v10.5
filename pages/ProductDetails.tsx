@@ -33,6 +33,8 @@ import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { StatusBadge } from "../components/ui/status-badge";
+import { Tr } from "../components/Tr";
+import { ProductCard } from "../components/ui/ProductCard";
 const ProductDetails: React.FC = () => {
   const { id, slug } = useParams();
   const { isDark, toggleTheme } = useTheme();
@@ -229,15 +231,17 @@ const ProductDetails: React.FC = () => {
         );
       }
 
-      const productQ = query(collection(db, "products"));
+      const productQ = query(collection(db, "products"), where("category", "==", product.category || ""));
       const unsubscribeProducts = onSnapshot(productQ, (snap) => {
         const allProducts = snap.docs.map(
           (d) => ({ id: d.id, ...d.data() }) as Product,
         );
-        const others = allProducts
-          .filter((p) => p.id !== resolvedId)
-          .slice(0, 2);
-        setBundleItems(others);
+        let others = allProducts
+          .filter((p) => p.id !== resolvedId);
+        
+        // Randomize
+        others = others.sort(() => 0.5 - Math.random());
+        setBundleItems(others.slice(0, 4));
       });
 
       return () => {
@@ -465,7 +469,7 @@ const ProductDetails: React.FC = () => {
   };
 
   return (
-    <div className="w-full mx-auto min-h-screen bg-background text-foreground pb-24 lg:pb-0 overflow-x-hidden">
+    <div className="w-full mx-auto min-h-screen bg-background text-foreground lg:pb-0 overflow-x-hidden">
       <SEO
         title={product.name}
         description={
@@ -565,7 +569,7 @@ const ProductDetails: React.FC = () => {
 
           {/* Product Details Section */}
           <div className="flex flex-col">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-zinc-900 dark:text-zinc-100">{product.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2 text-zinc-900 dark:text-zinc-100"><Tr>{product.name}</Tr></h1>
             
             <div className="flex items-center gap-4 mb-4">
                <div className="flex items-center gap-1">
@@ -576,7 +580,7 @@ const ProductDetails: React.FC = () => {
                     />
                  ))}
                  <span className="ml-2 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                   {(product.rating || 0).toFixed(1)} ({product.numReviews || 0} reviews)
+                   {(product.rating || 0).toFixed(1)} ({product.numReviews || 0} <Tr>reviews</Tr>)
                  </span>
                </div>
             </div>
@@ -639,9 +643,9 @@ const ProductDetails: React.FC = () => {
 
             {/* Description */}
             <div className="bg-white dark:bg-zinc-900/50 rounded-2xl p-5 md:p-6 border border-zinc-200 dark:border-zinc-800 shadow-sm mt-2">
-               <h3 className="text-sm font-bold mb-3 text-zinc-900 dark:text-zinc-100">Product Description</h3>
+               <h3 className="text-sm font-bold mb-3 text-zinc-900 dark:text-zinc-100"><Tr>Product Description</Tr></h3>
                <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed whitespace-pre-wrap">
-                 {product.description || "High-quality premium accessory designed for ultimate performance and style."}
+                 <Tr>{product.description || "High-quality premium accessory designed for ultimate performance and style."}</Tr>
                </p>
             </div>
             
@@ -668,41 +672,12 @@ const ProductDetails: React.FC = () => {
           </div>
         </main>
 
-        {/* Related / Bundle section */}
-        {bundleItems.length > 0 && (
-          <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800">
-             <div className="flex flex-col sm:flex-row justify-between sm:items-end mb-6 gap-4">
-                <div>
-                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-1">Bundle Offer</h3>
-                  <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Shop the Look</h2>
-                </div>
-                <Button onClick={handleBundleAddToCart} disabled={addingBundle} variant="default" className="rounded-full shadow-sm text-sm bg-zinc-800 dark:bg-zinc-200 hover:bg-emerald-700 text-white w-full sm:w-auto">
-                   {addingBundle ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Add Bundle (Save 10%)"}
-                </Button>
-             </div>
-             
-             <div className="flex items-center gap-4 overflow-x-auto no-scrollbar pb-4 mt-8">
-               <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-2 shrink-0">
-                  <img src={product.image} className="w-full h-full object-contain" />
-               </div>
-               {bundleItems.map(item => (
-                 <React.Fragment key={item.id}>
-                    <Icon name="plus" className="text-zinc-400 shrink-0" />
-                    <div className="w-24 h-24 bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-2 shrink-0">
-                       <img src={item.image} className="w-full h-full object-contain" />
-                    </div>
-                 </React.Fragment>
-               ))}
-             </div>
-          </div>
-        )}
-
         {/* Reviews Section */}
         <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800">
            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
               <div className="text-center md:text-left">
-                 <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">Customer Reviews</h2>
-                 <p className="text-sm text-zinc-500 mt-1">Based on {product.numReviews || 0} reviews</p>
+                 <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100"><Tr>Customer Reviews</Tr></h2>
+                 <p className="text-sm text-zinc-500 mt-1"><Tr>Based on</Tr> {product.numReviews || 0} <Tr>reviews</Tr></p>
               </div>
               <ReviewComposer 
                  productId={product.id} 
@@ -711,18 +686,51 @@ const ProductDetails: React.FC = () => {
            </div>
 
            <div className="flex flex-col gap-4">
-              {reviews.map((review) => (
-                <div key={review.id} className="bg-white dark:bg-zinc-900/50 rounded-2xl border border-zinc-200 shadow-sm dark:border-zinc-800 overflow-hidden">
-                  <CommentReply review={review as any} />
+              {reviews.slice(0, 3).map((review) => (
+                <div key={review.id} className="bg-white dark:bg-zinc-900/50 rounded-[28px] border border-zinc-200 shadow-sm dark:border-zinc-800 overflow-hidden">
+                  <CommentReply review={review as any} onReply={async (text, image) => {
+                     if (!auth.currentUser) return notify("Please login to reply", "error");
+                     try {
+                        const newReply = { userId: auth.currentUser.uid, userName: auth.currentUser.displayName || 'User', userPhoto: auth.currentUser.photoURL || '', text, image, createdAt: Date.now() };
+                        const updateDoc = (await import("firebase/firestore")).updateDoc;
+                        const arrayUnion = (await import("firebase/firestore")).arrayUnion;
+                        await updateDoc(doc(db, "reviews", review.id), {
+                           replies: arrayUnion(newReply)
+                        });
+                        notify("Reply added!", "success");
+                     } catch(e) {
+                        notify("Failed to add reply", "error");
+                     }
+                  }} />
                 </div>
               ))}
+              {reviews.length > 3 && (
+                <Button onClick={() => navigate(`/product/${product.id}/reviews`)} variant="outline" className="w-full mt-2 rounded-full py-6 bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 shadow-sm font-semibold text-zinc-900 dark:text-zinc-100 hover:scale-[1.02] transition-transform">
+                  <Tr>View All Reviews</Tr> ({reviews.length})
+                </Button>
+              )}
               {reviews.length === 0 && (
                 <div className="py-12 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 text-center">
-                  <p className="text-sm font-semibold text-zinc-500">No reviews yet. Be the first!</p>
+                  <p className="text-sm font-semibold text-zinc-500"><Tr>No reviews yet. Be the first!</Tr></p>
                 </div>
               )}
            </div>
         </div>
+
+        {/* Related / Bundle section moved below Reviews */}
+        {bundleItems.length > 0 && (
+          <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+             <div className="mb-6">
+                <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100"><Tr>You May Like</Tr></h2>
+             </div>
+             
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+               {bundleItems.map(item => (
+                 <ProductCard key={item.id} product={item} />
+               ))}
+             </div>
+          </div>
+        )}
 
         {product.videoUrl && (
           <div className="mt-16 pt-8 border-t border-zinc-200 dark:border-zinc-800">

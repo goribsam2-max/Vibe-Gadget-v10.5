@@ -176,10 +176,12 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
+import ProductReviews from './pages/ProductReviews';
 import Cart from './pages/Cart';
 import Profile from './pages/Profile';
 import AffiliatePage from './pages/Affiliate';
 import MyOrders from './pages/MyOrders';
+import OrderActionPage from './pages/OrderActionPage';
 import NotificationsPage from './pages/Notifications';
 import Onboarding from './pages/Onboarding';
 import VerifyCode from './pages/VerifyCode';
@@ -379,6 +381,7 @@ const AppContent: React.FC = () => {
           <Route path="/location" element={<PageWrapper><LocationAccess /></PageWrapper>} />
           <Route path="/product/:slug/:id" element={<PageWrapper><ProductDetails /></PageWrapper>} />
           <Route path="/product/:id" element={<PageWrapper><ProductDetails /></PageWrapper>} />
+          <Route path="/product/:id/reviews" element={<PageWrapper><ProductReviews /></PageWrapper>} />
           <Route path="/cart" element={<PageWrapper><Cart /></PageWrapper>} />
           <Route path="/checkout" element={<PageWrapper><CheckoutPage /></PageWrapper>} />
           <Route path="/success" element={<PageWrapper><OrderSuccess /></PageWrapper>} />
@@ -387,6 +390,7 @@ const AppContent: React.FC = () => {
           <Route path="/withdraw" element={<PageWrapper><WithdrawPage userData={userData} /></PageWrapper>} />
           <Route path="/profile/edit" element={<PageWrapper><EditProfile /></PageWrapper>} />
           <Route path="/orders" element={<PageWrapper><MyOrders /></PageWrapper>} />
+          <Route path="/orders/:actionName" element={<PageWrapper><OrderActionPage /></PageWrapper>} />
           <Route path="/notifications" element={<PageWrapper><NotificationsPage /></PageWrapper>} />
           <Route path="/wishlist" element={<PageWrapper><Wishlist /></PageWrapper>} />
           <Route path="/search" element={<PageWrapper><Search /></PageWrapper>} />

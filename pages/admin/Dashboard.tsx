@@ -213,7 +213,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10 pb-32 min-h-screen relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-6 py-10 min-h-screen relative overflow-hidden">
       {/* Background blobs for premium feel */}
       <div className="absolute top-[-10%] left-[-5%] w-[40rem] h-[40rem] bg-zinc-200 dark:bg-zinc-700/40 rounded-full blur-[100px] pointer-events-none z-0"></div>
       <div className="absolute top-[20%] right-[-10%] w-[30rem] h-[30rem] bg-indigo-100/30 rounded-full blur-[100px] pointer-events-none z-0"></div>

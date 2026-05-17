@@ -179,7 +179,7 @@ const CreateBlog: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800 font-inter">
+    <div className="max-w-5xl mx-auto px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800 font-inter">
       
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

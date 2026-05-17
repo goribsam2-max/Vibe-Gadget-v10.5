@@ -222,7 +222,7 @@ const NotificationsPage: React.FC = () => {
   const ticketCount = notifications.filter((n) => n.type === "ticket").length;
 
   return (
-    <div className="max-w-[600px] mx-auto px-4 py-10 pb-32 min-h-screen bg-background relative overflow-hidden flex flex-col items-center">
+    <div className="max-w-[600px] mx-auto px-4 py-10 min-h-screen bg-background relative overflow-hidden flex flex-col items-center">
       
 
       <Card className="flex w-full flex-col gap-6 p-4 shadow-none md:p-8 relative z-10 bg-card/60 backdrop-blur-xl border-border/50">

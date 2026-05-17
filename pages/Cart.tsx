@@ -68,7 +68,7 @@ const Cart: React.FC = () => {
 
   return (
     <TourProvider tourId="cart">
-    <div className="bg-zinc-50 dark:bg-[#000000] min-h-screen pb-32 animate-fade-in relative transition-colors font-inter">
+    <div className="bg-zinc-50 dark:bg-[#000000] min-h-screen animate-fade-in relative transition-colors font-inter">
       <CartTourSteps />
       <TourAlertDialog isOpen={showTour} setIsOpen={setShowTour} />
       {/* Header */}

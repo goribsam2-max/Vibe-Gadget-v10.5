@@ -132,7 +132,7 @@ const ManageOrders: React.FC = () => {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800">
+    <div className="max-w-[1440px] mx-auto px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800">
       <div className="flex items-center space-x-6 mb-12">
         <div>
           <h1 className="text-xl md:text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 mb-1.5">

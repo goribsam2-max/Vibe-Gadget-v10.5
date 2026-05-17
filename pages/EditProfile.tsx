@@ -71,7 +71,7 @@ const EditProfile: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 pb-48 bg-zinc-50 dark:bg-zinc-800 max-w-2xl mx-auto min-h-screen font-inter">
+    <div className="p-6 md:p-12 bg-zinc-50 dark:bg-zinc-800 max-w-2xl mx-auto min-h-screen font-inter">
       
 
       <div className="bg-zinc-50 dark:bg-zinc-800/50 p-8 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm">

@@ -87,7 +87,7 @@ const ShippingAddress: React.FC = () => {
   if (loading) return null;
 
   return (
-    <div className="p-6 pb-24 animate-fade-in min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-800 max-w-lg mx-auto">
+    <div className="p-6 animate-fade-in min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-800 max-w-lg mx-auto">
       <div className="space-y-6 flex-1">
         {savedAddresses.length > 0 && !isAdding ? (
           <div className="space-y-4">

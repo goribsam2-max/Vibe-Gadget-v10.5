@@ -183,10 +183,26 @@ const ManageAffiliateRequests: React.FC = () => {
                   {req.socialUrl && (
                     <>
                       <span>•</span>
-                      <a href={req.socialUrl} target="_blank" rel="noreferrer" className="text-indigo-500 hover:underline">Link</a>
+                      <a href={req.socialUrl} target="_blank" rel="noreferrer" className="text-indigo-500 hover:underline">{req.platform || 'Link'}</a>
+                    </>
+                  )}
+                  {req.followerCount && (
+                    <>
+                      <span>•</span>
+                      <span>{req.followerCount} followers</span>
                     </>
                   )}
                 </div>
+                {(req.promotionMethod || req.additionalInfo) && (
+                  <div className="mt-2 text-xs text-neutral-500 dark:text-neutral-400 bg-zinc-50 dark:bg-zinc-800/50 p-3 rounded-lg border border-zinc-100 dark:border-zinc-800 mb-1">
+                    {req.promotionMethod && (
+                      <p className="mb-1"><strong>Methods:</strong> {Array.isArray(req.promotionMethod) ? req.promotionMethod.join(', ') : req.promotionMethod}</p>
+                    )}
+                    {req.additionalInfo && (
+                      <p><strong>Info:</strong> {req.additionalInfo}</p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 

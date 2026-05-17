@@ -88,7 +88,7 @@ const ManageHelpDesk: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800/50">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800/50">
       
 
       <div className="bg-zinc-50 dark:bg-zinc-800 rounded-full border border-zinc-200 dark:border-zinc-700 shadow-sm overflow-x-auto text-sm">

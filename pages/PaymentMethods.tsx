@@ -39,7 +39,7 @@ const PaymentMethods: React.FC = () => {
   };
 
   return (
-    <div className="p-6 pb-24 animate-fade-in min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-800 max-w-md mx-auto">
+    <div className="p-6 animate-fade-in min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-800 max-w-md mx-auto">
       
 
       <div className="flex-1">

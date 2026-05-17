@@ -71,7 +71,7 @@ const NewPassword: React.FC = () => {
     );
 
   return (
-    <div className="p-6 md:p-12 pb-24 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-xl mx-auto min-h-screen font-inter">
+    <div className="p-6 md:p-12 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-xl mx-auto min-h-screen font-inter">
       <SEO
         title="Reset Password"
         description="Create a new password for your VibeGadget account."

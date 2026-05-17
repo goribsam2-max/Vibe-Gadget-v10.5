@@ -67,7 +67,7 @@ const TicketDetails: React.FC = () => {
   if (!ticket) return null;
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800 font-inter">
+    <div className="max-w-3xl mx-auto px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800 font-inter">
       
 
       <div className="space-y-6">

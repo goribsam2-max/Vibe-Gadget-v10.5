@@ -290,7 +290,12 @@ export const AffiliateOnboardingForm = ({
                         </Label>
                         <Input
                           id="socialUrl"
-                          placeholder="https://instagram.com/yourprofile"
+                          placeholder={
+                            formData.platform === 'tiktok' ? "https://tiktok.com/@yourprofile" : 
+                            formData.platform === 'youtube' ? "https://youtube.com/@yourchannel" : 
+                            formData.platform === 'facebook' ? "https://facebook.com/yourpage" : 
+                            "https://instagram.com/yourprofile"
+                          }
                           value={formData.socialUrl}
                           onChange={(e) =>
                             updateFormData("socialUrl", e.target.value)

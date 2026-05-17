@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { UserProfile } from "../types";
+import { UserProfile, Order, OrderStatus } from "../types";
 import { useNavigate, Link } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { signOut, updateProfile } from "firebase/auth";
@@ -11,7 +11,7 @@ import { AvatarUploader } from "../components/ui/avatar-uploader";
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import Icon from "../components/Icon";
 import { motion } from "framer-motion";
-import { Settings, UserPlus, Star, Shield, ShoppingBag, FileText, Heart, Headphones, Lock, Info, Mail, LogOut, ShieldCheck, ChevronRight, Wallet, TrendingUp, Diamond, Gift } from "lucide-react";
+import { Settings, UserPlus, Star, Shield, ShoppingBag, FileText, Heart, Headphones, Lock, Info, Mail, LogOut, ShieldCheck, ChevronRight, Wallet, TrendingUp, Diamond, Gift, CreditCard, Truck, Package, MessageSquareShare } from "lucide-react";
 import { useTheme } from "../components/ThemeContext";
 import { TourProvider, TourAlertDialog, useTour } from "@/components/ui/tour";
 
@@ -75,25 +75,28 @@ const Profile: React.FC<{ userData: UserProfile | null }> = ({
     initialUserData,
   );
   const [orderCount, setOrderCount] = useState(0);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     setLocalUserData(initialUserData);
   }, [initialUserData]);
 
   useEffect(() => {
-    const fetchOrderCount = async () => {
+    const fetchOrders = async () => {
       const user = auth.currentUser;
       if (user) {
         try {
           const q = query(collection(db, "orders"), where("userId", "==", user.uid));
           const querySnapshot = await getDocs(q);
-          setOrderCount(querySnapshot.size);
+          const userOrders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
+          setOrders(userOrders);
+          setOrderCount(userOrders.length);
         } catch (error) {
           console.error("Error fetching orders:", error);
         }
       }
     };
-    fetchOrderCount();
+    fetchOrders();
   }, [auth.currentUser]);
 
   const handleAvatarUpload = async (file: File) => {
@@ -154,7 +157,7 @@ const Profile: React.FC<{ userData: UserProfile | null }> = ({
 
   return (
     <TourProvider tourId="profile">
-    <div className="min-h-screen bg-[#F0F2F5] dark:bg-zinc-950 font-sans pb-6">
+    <div className="min-h-screen bg-[#F0F2F5] dark:bg-zinc-950 font-sans">
       <ProfileTourSteps />
       <TourAlertDialog isOpen={showTour} setIsOpen={setShowTour} />
       {/* Top Header Area (Teal) */}
@@ -234,6 +237,59 @@ const Profile: React.FC<{ userData: UserProfile | null }> = ({
               <div className="flex items-center space-x-1">
                   <span className="text-[#FF5C01] text-sm font-semibold">{localUserData.isAffiliate ? "Pro" : "Standard"}</span>
                   <ChevronRight className="w-4 h-4 text-[#FF5C01]" strokeWidth={2.5}/>
+              </div>
+          </div>
+
+          {/* Order Actions */}
+          <div className="bg-white dark:bg-zinc-900 rounded-[24px] shadow-sm p-5 py-6">
+              <div className="grid grid-cols-4 gap-2">
+                  <div onClick={() => navigate('/orders/pay')} className="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform group">
+                      <div className="relative mb-2">
+                          <CreditCard className="w-6 h-6 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors" />
+                          {orders.filter(o => o.status === OrderStatus.PENDING).length > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white dark:border-zinc-900">
+                                {orders.filter(o => o.status === OrderStatus.PENDING).length}
+                            </span>
+                          )}
+                      </div>
+                      <span className="text-[12px] font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">Pay</span>
+                  </div>
+                  
+                  <div onClick={() => navigate('/orders/ship')} className="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform group">
+                      <div className="relative mb-2">
+                          <Truck className="w-6 h-6 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors" />
+                          {orders.filter(o => o.status === OrderStatus.SHIPPED || o.status === OrderStatus.ON_THE_WAY).length > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white dark:border-zinc-900">
+                                {orders.filter(o => o.status === OrderStatus.SHIPPED || o.status === OrderStatus.ON_THE_WAY).length}
+                            </span>
+                          )}
+                      </div>
+                      <span className="text-[12px] font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">Ship</span>
+                  </div>
+
+                  <div onClick={() => navigate('/orders/receive')} className="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform group">
+                      <div className="relative mb-2">
+                          <Package className="w-6 h-6 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors" />
+                          {orders.filter(o => o.status === OrderStatus.DELIVERED && (Date.now() - ((o as any).updatedAt || o.createdAt)) <= 24 * 60 * 60 * 1000).length > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white dark:border-zinc-900">
+                                {orders.filter(o => o.status === OrderStatus.DELIVERED && (Date.now() - ((o as any).updatedAt || o.createdAt)) <= 24 * 60 * 60 * 1000).length}
+                            </span>
+                          )}
+                      </div>
+                      <span className="text-[12px] font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">Receive</span>
+                  </div>
+
+                  <div onClick={() => navigate('/orders/review')} className="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform group">
+                      <div className="relative mb-2">
+                          <MessageSquareShare className="w-6 h-6 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200 transition-colors" />
+                          {orders.filter(o => o.status === OrderStatus.DELIVERED).length > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full border border-white dark:border-zinc-900">
+                                {orders.filter(o => o.status === OrderStatus.DELIVERED).length}
+                            </span>
+                          )}
+                      </div>
+                      <span className="text-[12px] font-medium text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">Review</span>
+                  </div>
               </div>
           </div>
 

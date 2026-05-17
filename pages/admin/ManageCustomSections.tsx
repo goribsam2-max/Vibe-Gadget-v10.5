@@ -81,7 +81,7 @@ const ManageCustomSections: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 pb-32 min-h-screen">
+    <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-lg font-semibold">Custom Sections</h1>

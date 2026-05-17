@@ -130,7 +130,7 @@ export function Header() {
                         variant="ghost"
                         onClick={() => {
                             if (isInnerPage) {
-                                setShowBackDialog(true);
+                                navigate(-1);
                             } else {
                                 setOpen(!open);
                             }
@@ -273,41 +273,6 @@ export function Header() {
 					)}
 				</div>
 			</MobileMenu>
-
-            <Modal.Modal 
-                active={showBackDialog} 
-                onClickOutside={() => setShowBackDialog(false)}
-            >
-                <Modal.Body className="space-y-4">
-                    <Modal.Header>
-                        <Modal.Title>Select Action</Modal.Title>
-                        <Modal.Subtitle>Choose your next step</Modal.Subtitle>
-                    </Modal.Header>
-                    
-                    <div className="flex flex-col gap-3 mt-2">
-                        <Button 
-                            variant="default" 
-                            className="bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 py-6 rounded-xl text-base w-full"
-                            onClick={() => {
-                                setShowBackDialog(false);
-                                setOpen(true);
-                            }}
-                        >
-                            Open Menu
-                        </Button>
-                        <Button 
-                            variant="outline" 
-                            className="w-full bg-transparent border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 py-6 rounded-xl text-base"
-                            onClick={() => {
-                                setShowBackDialog(false);
-                                navigate(-1);
-                            }}
-                        >
-                            Go Back
-                        </Button>
-                    </div>
-                </Modal.Body>
-            </Modal.Modal>
 		</header>
 	);
 }

@@ -60,7 +60,7 @@ const Wishlist: React.FC = () => {
     );
 
   return (
-    <div className="px-6 md:px-12 py-10 pb-24 bg-zinc-50 dark:bg-[#000000] max-w-7xl mx-auto min-h-screen">
+    <div className="px-6 md:px-12 py-10 bg-zinc-50 dark:bg-[#000000] max-w-7xl mx-auto min-h-screen">
       
 
       {!auth.currentUser ? (

@@ -196,7 +196,7 @@ const ManageStories: React.FC = () => {
     songSource === "preset" ? selectedSongUrl : customSongUrl;
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800 animate-fade-in relative overflow-hidden">
+    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800 animate-fade-in relative overflow-hidden">
       <div className="flex items-center justify-between mb-12 relative z-10 animate-stagger-1">
         <div className="flex items-center space-x-6">
           <div>

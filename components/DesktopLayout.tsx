@@ -50,13 +50,15 @@ const DesktopLayout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     navigate('/auth-selector');
   };
 
+  const showNav = ['/', '/profile', '/search', '/notifications', '/orders', '/wishlist'].includes(location.pathname);
+
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-800 flex flex-col">
       <Header />
       <div className="flex-1 flex w-full">
         {/* Main Content Area */}
         <div className="flex-1 w-full max-w-full lg:max-w-[calc(100vw-80px)] xl:max-w-none bg-zinc-50 dark:bg-zinc-800 md:bg-zinc-50 dark:bg-zinc-800/50">
-          <div className="w-full max-w-[1920px] mx-auto pb-24 md:pb-0">
+          <div className={`w-full max-w-[1920px] mx-auto ${showNav ? 'pb-24 md:pb-8' : 'pb-6 md:pb-8'}`}>
             {children}
           </div>
         </div>

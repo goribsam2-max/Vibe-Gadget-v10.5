@@ -30,16 +30,6 @@ export const LanguageSelectorDropdown = () => {
     setOpen(false);
     localStorage.setItem('vibe_lang', lang.code);
     localStorage.setItem('vibe_lang_selected', 'true');
-    
-    if (lang.code === 'bn') {
-      document.cookie = 'googtrans=/en/bn; path=/';
-      document.cookie = 'googtrans=/en/bn; path=/; domain=' + window.location.hostname;
-    } else {
-      document.cookie = 'googtrans=/en/en; path=/';
-      document.cookie = 'googtrans=/en/en; path=/; domain=' + window.location.hostname;
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
-    }
     window.location.reload();
   };
 

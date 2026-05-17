@@ -108,7 +108,7 @@ const MyOrders: React.FC = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12 pb-40 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800">
+    <div className="max-w-3xl mx-auto px-6 py-12 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800">
       
 
       {loading ? (

@@ -73,7 +73,7 @@ const AdminNotifications: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800/30">
+    <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800/30">
       
 
       <div className="bg-zinc-50 dark:bg-zinc-800 p-8 md:p-10 rounded-2xl border border-zinc-100 dark:border-zinc-800 shadow-sm max-w-2xl mx-auto">

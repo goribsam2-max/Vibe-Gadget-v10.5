@@ -90,7 +90,7 @@ const EReceipt: React.FC = () => {
   );
 
   return (
-    <div className="p-6 pb-24 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800 max-w-md mx-auto print:p-0">
+    <div className="p-6 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800 max-w-md mx-auto print:p-0">
       
 
       <div

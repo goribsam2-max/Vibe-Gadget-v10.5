@@ -74,7 +74,7 @@ const TrackOrder: React.FC = () => {
 
   if (loading)
     return (
-      <div className="max-w-[1440px] mx-auto px-6 py-12 md:p-12 pb-40 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800 flex justify-center">
+      <div className="max-w-[1440px] mx-auto px-6 py-12 md:p-12 animate-fade-in min-h-screen bg-zinc-50 dark:bg-zinc-800 flex justify-center">
         <div className="w-full max-w-2xl bg-white dark:bg-zinc-800 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800">
           <div className="flex justify-between items-center mb-8">
             <div className="w-12 h-12 rounded-full bg-zinc-200 dark:bg-zinc-700 animate-pulse"></div>
@@ -109,7 +109,7 @@ const TrackOrder: React.FC = () => {
     );
 
   return (
-    <div className="p-6 md:p-12 pb-48 min-h-screen bg-zinc-50 dark:bg-zinc-800 max-w-lg mx-auto animate-fade-in">
+    <div className="p-6 md:p-12 min-h-screen bg-zinc-50 dark:bg-zinc-800 max-w-lg mx-auto animate-fade-in">
       
 
       <div className="bg-zinc-50 dark:bg-zinc-800 rounded-2xl p-10 flex flex-col items-center text-center border border-zinc-100 dark:border-zinc-800 mb-12 shadow-sm relative overflow-hidden">

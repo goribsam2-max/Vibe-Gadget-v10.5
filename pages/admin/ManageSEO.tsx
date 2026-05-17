@@ -88,7 +88,7 @@ const ManageSEO: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-10 pb-32 min-h-screen bg-zinc-50 dark:bg-zinc-800/50">
+    <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-zinc-50 dark:bg-zinc-800/50">
       
 
       <form onSubmit={handleSave} className="space-y-8">

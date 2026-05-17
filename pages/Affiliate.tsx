@@ -392,7 +392,7 @@ const SmallCreatorsHub: React.FC<{ userData: UserProfile }> = ({ userData }) => 
                     <input
                       type="url"
                       required
-                      placeholder="https://..."
+                      placeholder="e.g. https://tiktok.com/@profile/video/123"
                       value={videoUrl}
                       onChange={(e) => setVideoUrl(e.target.value)}
                       className="w-full bg-white dark:bg-zinc-900 px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 block text-sm font-medium outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors"
@@ -637,7 +637,12 @@ const CreatorHub: React.FC<{ userData: UserProfile }> = ({ userData }) => {
               <input
                 type="url"
                 required
-                placeholder="https://..."
+                placeholder={
+                  platform === 'youtube' ? "https://youtube.com/watch?v=..." :
+                  platform === 'facebook' ? "https://facebook.com/.../videos/..." :
+                  platform === 'tiktok' ? "https://tiktok.com/@profile/video/..." :
+                  "https://..."
+                }
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
                 className="w-full bg-zinc-50 dark:bg-[#121212] px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 block text-sm font-medium outline-none"
@@ -691,7 +696,12 @@ const CreatorHub: React.FC<{ userData: UserProfile }> = ({ userData }) => {
               <input
                 type="url"
                 required
-                placeholder="https://..."
+                placeholder={
+                  platform === 'youtube' ? "https://youtube.com/@channel" :
+                  platform === 'facebook' ? "https://facebook.com/page" :
+                  platform === 'tiktok' ? "https://tiktok.com/@profile" :
+                  "https://..."
+                }
                 value={channelUrl}
                 onChange={(e) => setChannelUrl(e.target.value)}
                 className="w-full bg-zinc-50 dark:bg-[#121212] px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 block text-sm font-medium outline-none"
@@ -719,7 +729,7 @@ const AffiliatePage: React.FC = () => {
   const [configs, setConfigs] = useState<any>({});
   const [formData, setFormData] = useState({ fullName: "", phone: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("menu");
   const [tempCode, setTempCode] = useState("");
   const [isEditingCode, setIsEditingCode] = useState(false);
   const [savingCode, setSavingCode] = useState(false);
@@ -786,14 +796,26 @@ const AffiliatePage: React.FC = () => {
         email: userData.email,
         fullName: data.fullName,
         phone: data.phone,
+        socialUrl: data.socialUrl,
+        platform: data.platform,
+        followerCount: data.followerCount,
+        promotionMethod: data.promotionMethod,
+        additionalInfo: data.additionalInfo,
         status: "pending",
         createdAt: Date.now(),
       });
       await sendAffiliateRequestToTelegram({
         userId: userData.uid,
         userName: data.fullName,
+        fullName: data.fullName,
         phone: data.phone,
         email: userData.email || "",
+        socialUrl: data.socialUrl,
+        platform: data.platform,
+        followerCount: data.followerCount,
+        promotionMethod: data.promotionMethod,
+        additionalInfo: data.additionalInfo,
+        createdAt: Date.now(),
       });
       notify("Request submitted successfully", "success");
     } catch (err) {
@@ -817,21 +839,48 @@ const AffiliatePage: React.FC = () => {
 
   if (userData.affiliateStatus === "pending") {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-20 min-h-screen bg-background text-foreground text-center">
-        <h2 className="text-xl font-semibold mb-4">Your request is under review</h2>
-        <p className="text-zinc-500">We will notify you once your application has been processed.</p>
+      <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-background text-foreground text-center relative">
+        <div className="flex items-center space-x-6 mb-10 text-left">
+          <button
+            onClick={() => navigate("/profile")}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition"
+          >
+            <Icon name="arrow-left" />
+          </button>
+          <div>
+            <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+              Partner Program
+            </h1>
+            <p className="text-[9px] font-bold text-zinc-800 dark:text-zinc-200/70  tracking-normal mt-1 pl-1">
+              Application Status
+            </p>
+          </div>
+        </div>
+        <div className="pt-20">
+          <h2 className="text-xl font-semibold mb-4">Your request is under review</h2>
+          <p className="text-zinc-500">We will notify you once your application has been processed.</p>
+        </div>
       </div>
     );
   }
 
   if (!userData.isAffiliate) {
     return (
-      <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-background text-foreground font-sans relative overflow-hidden pb-32">
+      <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-background text-foreground font-sans relative overflow-hidden">
         <div className="flex items-center space-x-6 mb-10">
+          <button
+            onClick={() => navigate("/profile")}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition"
+          >
+            <Icon name="arrow-left" />
+          </button>
           <div>
             <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
               Partner Program
             </h1>
+            <p className="text-[9px] font-bold text-zinc-800 dark:text-zinc-200/70  tracking-normal mt-1 pl-1">
+              Apply Now
+            </p>
           </div>
         </div>
 
@@ -1071,7 +1120,7 @@ const AffiliatePage: React.FC = () => {
 
   return (
     <TourProvider tourId="affiliate">
-    <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-background text-foreground font-sans relative overflow-hidden pb-32">
+    <div className="max-w-4xl mx-auto px-6 py-10 min-h-screen bg-background text-foreground font-sans relative overflow-hidden">
         <AffiliateTourSteps />
         <TourAlertDialog isOpen={showTour} setIsOpen={setShowTour} />
         <div aria-hidden className="fixed inset-0 isolate contain-strict -z-10 opacity-30 dark:opacity-60 pointer-events-none">
@@ -1080,27 +1129,57 @@ const AffiliatePage: React.FC = () => {
         </div>
       <div className="flex items-center justify-between mb-10 relative z-10">
         <div className="flex items-center space-x-6">
+          <button
+            onClick={() => {
+              if (activeTab === "menu") navigate("/profile");
+              else setActiveTab("menu");
+            }}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-800 hover:bg-zinc-300 dark:hover:bg-zinc-700 transition"
+          >
+            <Icon name="arrow-left" />
+          </button>
           
           <div className="flex flex-col">
             <h1 className="text-lg md:text-xl lg:text-base xl:text-sm font-semibold tracking-tight  text-shine">
-              Partners.
+              {activeTab === "menu" ? "Partners." : 
+               activeTab === "dashboard" ? "Dashboard" : 
+               activeTab === "creator_hub" ? "Creator Hub" : 
+               "Small Creators"}
             </h1>
             <p className="text-[9px] font-bold text-zinc-800 dark:text-zinc-200/70  tracking-normal mt-1 pl-1">
-              Affiliate Portal
+              {activeTab === "menu" ? "Select an option" : "Affiliate Portal"}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="mb-8">
-        <DiscreteTabs 
-          tabs={tabsData} 
-          activeTab={activeTab} 
-          onChange={setActiveTab} 
-        />
-      </div>
-
-      {activeTab === "dashboard" ? (
+      {activeTab === "menu" ? (
+        <div className="max-w-5xl mx-auto space-y-4">
+          {tabsData.map(tab => {
+            const IconCmp = tab.icon;
+            return (
+              <div 
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as string)}
+                className="bg-white dark:bg-zinc-900 rounded-[28px] p-5 flex items-center justify-between cursor-pointer active:scale-[0.98] transition-transform shadow-sm border border-zinc-100 dark:border-zinc-800"
+              >
+                <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                        <IconCmp className="w-5 h-5 text-zinc-900 dark:text-zinc-100" />
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-lg text-zinc-900 dark:text-zinc-100">{tab.title}</h3>
+                        <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">View {tab.title.toLowerCase()}</p>
+                    </div>
+                </div>
+                <div className="w-10 h-10 bg-zinc-100 dark:bg-zinc-800 rounded-full flex items-center justify-center">
+                    <Icon name="chevron-right" className="text-zinc-900 dark:text-zinc-100" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : activeTab === "dashboard" ? (
         <>
           <div className="flex flex-col lg:flex-row gap-6 mb-8 w-full max-w-5xl mx-auto">
             {/* Wallet style card */}

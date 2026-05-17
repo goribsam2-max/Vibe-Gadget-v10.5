@@ -125,7 +125,7 @@ const ManageUsers: React.FC = () => {
   });
 
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 pb-32 min-h-screen bg-[#FDFDFD]">
+    <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10 min-h-screen bg-[#FDFDFD]">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12">
         <div className="flex items-center space-x-6">
           <div>

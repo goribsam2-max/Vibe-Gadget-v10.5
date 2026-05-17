@@ -51,7 +51,7 @@ const ContactUs: React.FC = () => {
   };
 
   return (
-    <div className="p-6 md:p-12 pb-24 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-2xl mx-auto min-h-screen">
+    <div className="p-6 md:p-12 animate-fade-in bg-zinc-50 dark:bg-zinc-800 max-w-2xl mx-auto min-h-screen">
       <SEO
         title="Contact Us"
         description="Contact VibeGadget for inquiries, support and help."

@@ -4,20 +4,29 @@ const CHAT_ID = "5494141897";
 
 export const sendAffiliateRequestToTelegram = async (requestData: any) => {
   try {
+    const methods = Array.isArray(requestData.promotionMethod) 
+      ? requestData.promotionMethod.join(', ') : 'Not provided';
+
     const message = `
 <b>🚀 NEW AFFILIATE PROGRAM REQUEST</b>
 ━━━━━━━━━━━━━━━━━━
 <b>👤 APPLICANT DETAILS</b>
 <b>User ID:</b> <code>${requestData.userId}</code>
-<b>Full Name:</b> ${requestData.fullName}
+<b>Full Name:</b> ${requestData.fullName || requestData.userName}
 <b>Email:</b> ${requestData.email}
 <b>Phone:</b> <code>${requestData.phone}</code>
 
 <b>🔗 SOCIAL MEDIA / WEBSITE</b>
-<i>${requestData.socialUrl || 'Not provided'}</i>
+<b>Platform:</b> ${requestData.platform || 'N/A'}
+<b>URL:</b> <i>${requestData.socialUrl || 'Not provided'}</i>
+<b>Followers:</b> ${requestData.followerCount || 'N/A'}
+
+<b>📈 STRATEGY</b>
+<b>Methods:</b> ${methods}
+<b>Additional:</b> ${requestData.additionalInfo || 'None'}
 
 <b>📅 SYSTEM INFO</b>
-<b>Applied Date:</b> ${new Date(requestData.createdAt).toLocaleString('en-BD')}
+<b>Applied Date:</b> ${requestData.createdAt ? new Date(requestData.createdAt).toLocaleString('en-BD') : new Date().toLocaleString('en-BD')}
 ━━━━━━━━━━━━━━━━━━
 <b>Review in Admin Panel!</b>
 `;

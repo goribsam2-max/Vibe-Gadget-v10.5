@@ -542,7 +542,7 @@ const Home: React.FC<{ userData?: any }> = ({ userData }) => {
 
   return (
     <TourProvider tourId="home">
-    <div className="relative pt-0 pb-24 px-6 md:px-12 bg-zinc-50 dark:bg-zinc-800 max-w-[1440px] mx-auto min-h-screen font-inter">
+    <div className="relative pt-0 px-6 md:px-12 bg-zinc-50 dark:bg-zinc-800 max-w-[1440px] mx-auto min-h-screen font-inter">
       <HomeTourSteps />
       <TourAlertDialog isOpen={showTour} setIsOpen={setShowTour} />
       <SEO
